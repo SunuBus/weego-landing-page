@@ -163,23 +163,21 @@ $('#subscription-form').submit(function(e) {
 
     $.ajax({
         type: 'POST',
-        url: '././php/subscribe.php',
+        url: 'https://jt1ya2y8c4.execute-api.us-east-1.amazonaws.com/production/weego-newsletter-subscribe',
+        contentType: 'application/json',
         dataType: 'json',
-        data: {
+        data: JSON.stringify({
             email: email
-        },
+        }),
         cache: false,
-        beforeSend: function(result) {
+        beforeSend: function() {
             submit.val("Joining...");
         },
-        success: function(result) {
-            if(result.sendstatus == 1) {
-                ajaxResponse.html(result.message);
-                $form.fadeOut(500);
-            } else {
-                ajaxResponse.html(result.message);
-                submit.val("Join");
-            }
+        success: function() {
+            submit.val("Joined");
+        },
+        error: function() {
+          submit.val('Oops, an error happened. Retry');
         }
     });
 
